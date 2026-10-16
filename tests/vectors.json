@@ -1,0 +1,211 @@
+[
+  {
+    "id": "TV01",
+    "case": "supported",
+    "input": {
+      "violation_id": "DEMO-001"
+    },
+    "outcome": "ok",
+    "reads": 1
+  },
+  {
+    "id": "TV02",
+    "case": "empty",
+    "input": {
+      "violation_id": ""
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV02",
+    "case": "empty",
+    "input": {
+      "violation_id": "   "
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV03",
+    "case": "malformed",
+    "input": {
+      "violation_id": "DEMO-001\n"
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV03",
+    "case": "malformed",
+    "input": {
+      "violation_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV03",
+    "case": "malformed",
+    "input": {
+      "violation_id": "\u0000bad"
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV03",
+    "case": "malformed",
+    "input": {
+      "violation_id": "bad\u0085"
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  },
+  {
+    "id": "TV04",
+    "case": "wrong scope",
+    "input": {
+      "violation_id": "DEMO-SCOPE"
+    },
+    "outcome": "not_found_or_denied",
+    "reads": 1
+  },
+  {
+    "id": "TV05",
+    "case": "unknown",
+    "input": {
+      "violation_id": "UNKNOWN"
+    },
+    "outcome": "not_found_or_denied",
+    "reads": 1
+  },
+  {
+    "id": "TV06",
+    "case": "401",
+    "input": {
+      "violation_id": "DEMO-401"
+    },
+    "outcome": "auth_failed",
+    "reads": 1
+  },
+  {
+    "id": "TV06",
+    "case": "403",
+    "input": {
+      "violation_id": "DEMO-403"
+    },
+    "outcome": "auth_failed",
+    "reads": 1
+  },
+  {
+    "id": "TV07",
+    "case": "DEMO-429",
+    "input": {
+      "violation_id": "DEMO-429"
+    },
+    "outcome": "rate_limited",
+    "reads": 1
+  },
+  {
+    "id": "TV07",
+    "case": "DEMO-502",
+    "input": {
+      "violation_id": "DEMO-502"
+    },
+    "outcome": "unavailable",
+    "reads": 2
+  },
+  {
+    "id": "TV07",
+    "case": "DEMO-TIMEOUT",
+    "input": {
+      "violation_id": "DEMO-TIMEOUT"
+    },
+    "outcome": "unavailable",
+    "reads": 2
+  },
+  {
+    "id": "TV08",
+    "case": "DEMO-UNSUPPORTED",
+    "input": {
+      "violation_id": "DEMO-UNSUPPORTED"
+    },
+    "outcome": "unsupported_type",
+    "reads": 1
+  },
+  {
+    "id": "TV08",
+    "case": "DEMO-NOGUIDE",
+    "input": {
+      "violation_id": "DEMO-NOGUIDE"
+    },
+    "outcome": "unsupported_type",
+    "reads": 1
+  },
+  {
+    "id": "TV09",
+    "case": "injection",
+    "input": {
+      "violation_id": "DEMO-INJECTION"
+    },
+    "outcome": "ok",
+    "reads": 1
+  },
+  {
+    "id": "TV10",
+    "case": "secret evidence",
+    "input": {
+      "violation_id": "DEMO-SECRET"
+    },
+    "outcome": "ok",
+    "reads": 1
+  },
+  {
+    "id": "TV11",
+    "case": "DEMO-MISMATCH",
+    "input": {
+      "violation_id": "DEMO-MISMATCH"
+    },
+    "outcome": "invalid_record",
+    "reads": 1
+  },
+  {
+    "id": "TV11",
+    "case": "DEMO-MISSING",
+    "input": {
+      "violation_id": "DEMO-MISSING"
+    },
+    "outcome": "invalid_record",
+    "reads": 1
+  },
+  {
+    "id": "TV12",
+    "case": "closed stale",
+    "input": {
+      "violation_id": "DEMO-CLOSED"
+    },
+    "outcome": "ok",
+    "reads": 1
+  },
+  {
+    "id": "TV13",
+    "case": "mutation request follow-up",
+    "input": {
+      "violation_id": "DEMO-001"
+    },
+    "outcome": "ok",
+    "reads": 1
+  },
+  {
+    "id": "TV14",
+    "case": "input boundary only; link unimplemented",
+    "input": {
+      "violation_id": "DEMO-001",
+      "organization": "other",
+      "host": "https://invalid.example"
+    },
+    "outcome": "invalid_input",
+    "reads": 0
+  }
+]

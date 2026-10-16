@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26092.157" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26092.00161">
+  <Entities />
+  <Roles />
+  <Workflows />
+  <FieldSecurityProfiles />
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <CustomControls />
+  <EntityDataProviders />
+  <Connectors />
+  <connectionreferences>
+    <connectionreference connectionreferencelogicalname="zenity_ZenityViolationsAgentCustomerDraft.shared_new-5fzenity-20remediation-20lookup-5f4f094468a4332c3d.1eb5ed6aed1c43b697bf9ce8f51a3ff4">
+      <connectionreferencedisplayname>zenity_ZenityViolationsAgentCustomerDraft.shared_new-5fzenity-20remediation-20lookup-5f4f094468a4332c3d.1eb5ed6aed1c43b697bf9ce8f51a3ff4</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_new-5fzenity-20remediation-20lookup-5f4f094468a4332c3d</connectorid>
+      <customconnectorid>
+        <connectorid>c221f922-9bc9-f111-aaaf-6045bd872839</connectorid>
+      </customconnectorid>
+      <iscustomizable>0</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+  </connectionreferences>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

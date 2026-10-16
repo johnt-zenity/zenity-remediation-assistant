@@ -1,0 +1,10 @@
+<botcomponent schemaname="zenity_ZenityViolationsAgentCustomerDraft.gpt.default">
+  <componenttype>15</componenttype>
+  <iscustomizable>0</iscustomizable>
+  <name>Zenity Violations Agent Customer Draft</name>
+  <parentbotid>
+    <schemaname>zenity_ZenityViolationsAgentCustomerDraft</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,1 @@
+{"api_key":{"type":"securestring","uiDefinition":{"displayName":"Customer lookup service key","description":"Connector service key for the customer-hosted lookup endpoint.","tooltip":"Separate from the customer Zenity client credentials.","constraints":{"tabIndex":2,"clearText":false,"required":"true"}}}}

@@ -1,0 +1,8 @@
+{
+  "name": "zenity-remediation-customer",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "start": "node server.mjs", "test": "node --test *.test.mjs" },
+  "dependencies": { "express": "5.1.0", "jose": "6.1.0" }
+}

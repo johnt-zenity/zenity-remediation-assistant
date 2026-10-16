@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <connectorid>c221f922-9bc9-f111-aaaf-6045bd872839</connectorid>
+  <description></description>
+  <displayname>Zenity remediation lookup</displayname>
+  <iconbrandcolor>#007ee5</iconbrandcolor>
+  <name>new_zenity-20remediation-20lookup</name>
+  <connectortype>1</connectortype>
+  <openapidefinition>/Connector/new_zenity-20remediation-20lookup_openapidefinition.json</openapidefinition>
+  <connectionparameters>/Connector/new_zenity-20remediation-20lookup_connectionparameters.json</connectionparameters>
+  <policytemplateinstances>/Connector/new_zenity-20remediation-20lookup_policytemplateinstances.json</policytemplateinstances>
+</Connector>

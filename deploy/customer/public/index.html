@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zenity Remediation Assistant</title>
+<link rel="stylesheet" href="/style.css"><script defer src="/app.js?v=direct-context-1"></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/" aria-label="Zenity home"><span class="brand-mark" aria-hidden="true"></span>zenity</a><div class="header-context">Violation Review</div></header>
+<main>
+<section class="intro"><h1>Review an AISPM violation</h1><p>Get a remediation plan for a live AISPM violation from your configured Zenity integration.</p></section>
+<p class="setup-instructions">Sign in with your assigned Microsoft account. In Zenity, open an AISPM violation and copy the <strong>ID</strong> at the top of its details.</p>
+<div class="account-row"><button id="microsoft-sign-in" class="secondary" type="button">Sign in with Microsoft</button></div>
+<form id="lookup-form" class="card"><label for="finding-id">Violation ID</label><div class="input-row"><input id="finding-id" name="violation_id" required maxlength="128" pattern="[A-Za-z0-9_.~\-]+" placeholder="Paste the violation ID from Zenity" autocomplete="off" spellcheck="false"><button id="lookup-button" type="submit">Review violation <span aria-hidden="true">→</span></button></div></form>
+<div id="status" role="status" aria-live="polite"></div>
+<div id="agent-status" role="status" aria-live="polite"></div>
+<section id="result" hidden aria-label="Violation review">
+<div class="result-heading"><h2 id="finding-title"></h2><span id="severity" class="status-pill"></span></div>
+<div class="finding-meta" id="finding-meta"></div>
+<p class="source-label">Live Zenity violation</p>
+<div id="sections"></div>
+<section id="agent-result" hidden aria-label="Assistant remediation plan"><h2>Proposed remediation</h2><div id="agent-plan"></div></section>
+<p class="review-note">Validate this general guidance against your environment before making changes. This assistant does not apply changes.</p>
+<details class="review-details"><summary>Violation evidence</summary><div id="evidence" class="details-body"></div></details>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,5 @@
+<botcomponent_connectionreferenceset>
+  <botcomponent_connectionreference botcomponentid.schemaname="zenity_ZenityViolationsAgentCustomerDraft.action.Zenityremediationlookup-ReadaZenityfindingforremedi" connectionreferenceid.connectionreferencelogicalname="zenity_ZenityViolationsAgentCustomerDraft.shared_new-5fzenity-20remediation-20lookup-5f4f094468a4332c3d.1eb5ed6aed1c43b697bf9ce8f51a3ff4">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_connectionreference>
+</botcomponent_connectionreferenceset>
