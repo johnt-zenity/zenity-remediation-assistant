@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "value": "zenity-remediation-lookup"
+    },
+    "location": {
+      "value": "YOUR_AZURE_REGION"
+    },
+    "environmentId": {
+      "value": "YOUR_CONTAINER_APPS_ENVIRONMENT_RESOURCE_ID"
+    },
+    "identityId": {
+      "value": "YOUR_USER_ASSIGNED_IDENTITY_RESOURCE_ID"
+    },
+    "registryServer": {
+      "value": "YOUR_REGISTRY.azurecr.io"
+    },
+    "image": {
+      "value": "YOUR_REGISTRY.azurecr.io/zenity-remediation-lookup:0.1.0-beta.1"
+    },
+    "serviceKey": {
+      "value": "YOUR_SEPARATE_RANDOM_KEY_AT_LEAST_32_CHARACTERS"
+    },
+    "zenityCredentials": {
+      "value": "CLIENT_ID=YOUR_CLIENT_ID\nCLIENT_SECRET=YOUR_CLIENT_SECRET\n"
+    },
+    "connection": {
+      "value": {
+        "organization_id": "org_YOUR_ORGANIZATION_ID",
+        "integration_id": "YOUR_INTEGRATION_ID",
+        "organization_name": "your-deployment",
+        "region": "your-region-label",
+        "api_base": "https://YOUR_API_HOST/",
+        "token_url": "https://YOUR_AUTH_HOST/oauth/token",
+        "audience": "YOUR_API_AUDIENCE",
+        "issuer": "https://YOUR_AUTH_HOST/",
+        "credential_file": "/run/secrets/zenity-credentials"
+      }
+    }
+  }
+}

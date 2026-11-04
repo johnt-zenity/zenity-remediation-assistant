@@ -1,0 +1,27 @@
+services:
+  remediation:
+    image: ${REMEDIATION_IMAGE:?Set an immutable customer image reference}
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      REMEDIATION_APP_CONFIG: /run/config/app.json
+      REMEDIATION_CONFIG: /run/config/connection.json
+    volumes:
+      - ${REMEDIATION_CONFIG_DIR:?Set the private configuration directory}:/run/config:ro
+      - ${ZENITY_CREDENTIAL_FILE:?Set the credential file}:/run/secrets/zenity-credentials:ro
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 0.5
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

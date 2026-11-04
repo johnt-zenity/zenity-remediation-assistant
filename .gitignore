@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+# Local source includes account context; keep it out of the reusable repository.
+docs/source-spec.md
+# Connection configuration and live probe artifacts remain local.
+*.local.json
+live-evaluation.json
+
+node_modules/
+
+# PAC exports and local build probes.
+/build/
+/copilot/workspaces/
+/copilot/agent-source/

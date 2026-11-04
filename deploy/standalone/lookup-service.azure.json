@@ -1,0 +1,130 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "environmentId": {
+      "type": "string"
+    },
+    "identityId": {
+      "type": "string"
+    },
+    "registryServer": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "serviceKey": {
+      "type": "secureString"
+    },
+    "zenityCredentials": {
+      "type": "secureString"
+    },
+    "connection": {
+      "type": "secureObject"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2024-03-01",
+      "name": "[parameters('appName')]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[parameters('identityId')]": {}
+        }
+      },
+      "properties": {
+        "managedEnvironmentId": "[parameters('environmentId')]",
+        "workloadProfileName": "Consumption",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "ingress": {
+            "external": true,
+            "targetPort": 8080,
+            "transport": "auto",
+            "allowInsecure": false
+          },
+          "registries": [
+            {
+              "server": "[parameters('registryServer')]",
+              "identity": "[parameters('identityId')]"
+            }
+          ],
+          "secrets": [
+            {
+              "name": "connector-key",
+              "value": "[parameters('serviceKey')]"
+            },
+            {
+              "name": "zenity-credentials",
+              "value": "[parameters('zenityCredentials')]"
+            },
+            {
+              "name": "connection",
+              "value": "[string(parameters('connection'))]"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "lookup",
+              "image": "[parameters('image')]",
+              "resources": {
+                "cpu": 0.5,
+                "memory": "1Gi"
+              },
+              "env": [
+                {
+                  "name": "REMEDIATION_CONNECTOR_KEY",
+                  "secretRef": "connector-key"
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "volumeName": "runtime-secrets",
+                  "mountPath": "/run/secrets"
+                }
+              ]
+            }
+          ],
+          "volumes": [
+            {
+              "name": "runtime-secrets",
+              "storageType": "Secret",
+              "secrets": [
+                {
+                  "secretRef": "connection",
+                  "path": "connection.json"
+                },
+                {
+                  "secretRef": "zenity-credentials",
+                  "path": "zenity-credentials"
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 1,
+            "maxReplicas": 1
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "hostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.App/containerApps', parameters('appName')), '2024-03-01').configuration.ingress.fqdn]"
+    }
+  }
+}

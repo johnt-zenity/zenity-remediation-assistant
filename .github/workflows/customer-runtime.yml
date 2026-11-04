@@ -1,0 +1,77 @@
+name: Customer runtime
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --ignore-scripts
+        working-directory: deploy/customer
+      - run: npm ci --ignore-scripts
+        working-directory: copilot/web
+      - run: npm test
+        working-directory: deploy/customer
+      - run: python -m unittest discover -s tests -v
+      - run: docker build -f deploy/customer/Dockerfile -t remediation-customer:test .
+      - run: |
+          docker run --rm --entrypoint node remediation-customer:test --check deploy/customer/server.mjs
+          if docker run --rm remediation-customer:test; then
+            echo 'Container unexpectedly started without configuration'
+            exit 1
+          fi
+      - name: Build and boot a generated customer bundle
+        run: |
+          python deploy/package_customer.py \
+            --customer smoke --organization org_synthetic --integration synthetic-integration \
+            --zenity-api-base https://api.zenity.io/ \
+            --zenity-token-url https://zenity-prod.eu.auth0.com/oauth/token \
+            --zenity-audience https://zenity-prod.eu.zenity.io/api/v3 \
+            --zenity-issuer https://zenity-prod.eu.auth0.com/ --zenity-region prod-us \
+            --host review.example.test \
+            --tenant-id 11111111-1111-1111-1111-111111111111 \
+            --spa-client-id 22222222-2222-2222-2222-222222222222 \
+            --api-client-id 33333333-3333-3333-3333-333333333333 \
+            --environment-id 44444444-4444-4444-4444-444444444444 \
+            --agent-schema SmokeAgent --output /tmp/customer-smoke
+          python -c "from pathlib import Path; Path('/tmp/customer-smoke/zenity-credentials').write_text('CLIENT_ID=synthetic-smoke-client\\nCLIENT_SECRET=synthetic-smoke-secret\\n')"
+          docker build -f /tmp/customer-smoke/application/deploy/customer/Dockerfile -t remediation-bundle:test /tmp/customer-smoke/application
+          docker run -d --name customer-smoke --read-only --tmpfs /tmp --cap-drop ALL \
+            --security-opt no-new-privileges:true -p 127.0.0.1:8080:8080 \
+            -v /tmp/customer-smoke/config:/run/config:ro \
+            -v /tmp/customer-smoke/zenity-credentials:/run/secrets/zenity-credentials:ro \
+            -e REMEDIATION_CONFIG=/run/config/connection.json \
+            -e REMEDIATION_APP_CONFIG=/run/config/app.json remediation-bundle:test
+          trap 'docker rm -f customer-smoke' EXIT
+          python - <<'SMOKE'
+          import json,time
+          from urllib.request import urlopen,Request
+          from urllib.error import HTTPError
+          for attempt in range(10):
+              try:
+                  with urlopen('http://127.0.0.1:8080/healthz',timeout=2) as response:
+                      assert json.load(response)['ok'] is True
+                  break
+              except OSError:
+                  if attempt == 9: raise
+                  time.sleep(1)
+          with urlopen('http://127.0.0.1:8080/agent-config.json') as response:
+              config=json.load(response)
+              assert config['tenantId']=='11111111-1111-1111-1111-111111111111'
+              assert set(config)=={'tenantId','clientId','apiScope'}
+          request=Request('http://127.0.0.1:8080/plan',data=b'{"violation_id":"smoke-id"}',
+              headers={'Origin':'https://review.example.test','Sec-Fetch-Site':'same-origin',
+                       'Content-Type':'application/json','X-CV-User-Id':'forged','X-CV-Perm':'admin'})
+          try:
+              urlopen(request)
+              raise AssertionError('Unauthenticated request accepted')
+          except HTTPError as error:
+              assert error.code==401
+          SMOKE

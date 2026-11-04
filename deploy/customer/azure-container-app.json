@@ -1,0 +1,170 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "type": "string",
+      "defaultValue": "zenity-remediation"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "westeurope"
+    },
+    "environmentId": {
+      "type": "string"
+    },
+    "registryServer": {
+      "type": "string"
+    },
+    "registryPullUsername": {
+      "type": "string"
+    },
+    "registryPullPassword": {
+      "type": "secureString"
+    },
+    "zenityCredentials": {
+      "type": "secureString"
+    },
+    "connection": {
+      "type": "secureObject"
+    },
+    "imageDigest": {
+      "type": "string"
+    },
+    "appConfig": {
+      "type": "object"
+    }
+  },
+  "resources": [
+    {
+      "location": "[parameters('location')]",
+      "properties": {
+        "managedEnvironmentId": "[parameters('environmentId')]",
+        "workloadProfileName": "Consumption",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "secrets": [
+            {
+              "name": "registry-pull",
+              "value": "[parameters('registryPullPassword')]"
+            },
+            {
+              "name": "zenity-credentials",
+              "value": "[parameters('zenityCredentials')]"
+            },
+            {
+              "name": "connection",
+              "value": "[string(parameters('connection'))]"
+            },
+            {
+              "name": "app-config",
+              "value": "[string(parameters('appConfig'))]"
+            }
+          ],
+          "registries": [
+            {
+              "server": "[parameters('registryServer')]",
+              "username": "[parameters('registryPullUsername')]",
+              "passwordSecretRef": "registry-pull"
+            }
+          ],
+          "ingress": {
+            "external": true,
+            "targetPort": 8080,
+            "allowInsecure": false,
+            "transport": "http"
+          }
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "remediation",
+              "image": "[parameters('imageDigest')]",
+              "resources": {
+                "cpu": 0.5,
+                "memory": "1Gi"
+              },
+              "env": [
+                {
+                  "name": "REMEDIATION_CONFIG",
+                  "value": "/run/config/connection.json"
+                },
+                {
+                  "name": "REMEDIATION_APP_CONFIG",
+                  "value": "/run/config/app.json"
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "volumeName": "config",
+                  "mountPath": "/run/config"
+                },
+                {
+                  "volumeName": "credentials",
+                  "mountPath": "/run/secrets"
+                }
+              ],
+              "probes": [
+                {
+                  "type": "Liveness",
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 10,
+                  "periodSeconds": 30
+                },
+                {
+                  "type": "Readiness",
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 5,
+                  "periodSeconds": 10
+                }
+              ]
+            }
+          ],
+          "volumes": [
+            {
+              "name": "config",
+              "storageType": "Secret",
+              "secrets": [
+                {
+                  "secretRef": "connection",
+                  "path": "connection.json"
+                },
+                {
+                  "secretRef": "app-config",
+                  "path": "app.json"
+                }
+              ]
+            },
+            {
+              "name": "credentials",
+              "storageType": "Secret",
+              "secrets": [
+                {
+                  "secretRef": "zenity-credentials",
+                  "path": "zenity-credentials"
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 0,
+            "maxReplicas": 1
+          }
+        }
+      },
+      "name": "[parameters('appName')]",
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2024-03-01"
+    }
+  ],
+  "outputs": {
+    "hostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.App/containerApps', parameters('appName'))).configuration.ingress.fqdn]"
+    }
+  }
+}

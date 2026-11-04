@@ -1,0 +1,20 @@
+{
+  "name": "zenity-remediation-copilot-client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "esbuild app-entry.js --bundle --format=iife --platform=browser --target=es2022 --minify --legal-comments=external --outfile=../../deploy/customer/public/app.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@azure/msal-browser": "5.25.0",
+    "@microsoft/agents-copilotstudio-client": "1.9.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
