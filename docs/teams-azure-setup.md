@@ -6,6 +6,8 @@ Use this guide to host the lookup service in your Azure subscription, connect it
 
 For an interactive installation guide, download [the walkthrough webpage](teams-walkthrough.html) and open it in your browser. The page runs locally. Its progress checklist stores only completion state in that browser.
 
+For instructor-led training, use the [four-session course and lab walkthrough](https://github.com/zenitysec/zenity-remediation-assistant/blob/main/docs/training/README.md).
+
 ## 1. Confirm access and prerequisites
 
 Have these available before starting:

@@ -8,6 +8,10 @@ Review an AISPM violation from your Zenity tenant and receive a proposed remedia
 2. **Review page:** Follow [Install the assistant](deploy/customer/README.md) to host the browser application with Microsoft sign-in and an integrated Copilot response.
 3. **Existing service host:** Use [the standalone agent guide](docs/copilot-customer-portability-spec.md). An [existing Linux host](docs/teams-setup.md) can run the lookup service behind your HTTPS proxy.
 
+## Team training
+
+Use the [four-session Copilot Studio Teams course](docs/training/README.md) for a step-by-step build, connector setup, testing and Teams publication. It includes an editable deck, a workbook, exact sample inputs and a blank acceptance record.
+
 ## Teams setup resources
 
 - [Detailed Azure and Teams guide](docs/teams-azure-setup.md): prerequisites, hosting, credentials, connector setup, publishing, and troubleshooting.
