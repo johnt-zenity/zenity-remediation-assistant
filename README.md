@@ -39,6 +39,10 @@ Recommendations provide general guidance about the observed condition. Validate 
 
 For Teams, complete the [Azure and Teams acceptance checks](docs/teams-azure-setup.md#10-record-acceptance-results). For the review page, use [the installation checks](docs/customer-deployment-spec.md) to confirm sign-in, access restrictions, Zenity lookup, finding identity, safe failures, and read-only behavior. [How it works](HOW_IT_WORKS.md) explains the request and authentication flow.
 
+## Runtime updates
+
+CI follows the latest Node.js LTS and stable Python 3 releases. Customer images use `node:lts-slim`; the standalone lookup image uses `python:3-slim`. GitHub Actions follow maintained major-version tags with weekly Dependabot checks. Rebuild deployed images to adopt runtime updates, then repeat the installation acceptance checks.
+
 ## Beta release
 
 The solution import and Teams channel activation have been rehearsed. The API-key Azure deployment recipe and a live finding conversation in Teams still require acceptance in your environment.

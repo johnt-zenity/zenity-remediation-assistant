@@ -1,11 +1,11 @@
-FROM node:22-bookworm-slim AS build
+FROM node:lts-slim AS build
 WORKDIR /app
 COPY copilot/web/package*.json copilot/web/
 RUN cd copilot/web && npm ci --ignore-scripts
 COPY copilot/web/app-entry.js copilot/web/
 RUN cd copilot/web && npx esbuild app-entry.js --bundle --format=iife --platform=browser --target=es2022 --minify --legal-comments=external --outfile=/compiled/app.js
 
-FROM node:22-bookworm-slim
+FROM node:lts-slim
 RUN apt-get update && apt-get install -y --no-install-recommends python3 ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY deploy/customer/package*.json deploy/customer/
