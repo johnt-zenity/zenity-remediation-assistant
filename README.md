@@ -10,7 +10,7 @@ Review an AISPM violation from your Zenity tenant and receive a proposed remedia
 
 ## Team training
 
-Use the [four-session Copilot Studio Teams course](docs/training/README.md) for a step-by-step build, connector setup, testing and Teams publication. It includes an editable deck, a workbook, exact sample inputs and a blank acceptance record.
+Use the [four-session Copilot Studio Teams course](docs/training/README.md) for a step-by-step build, connector setup, testing and Teams publication. It includes an editable deck, a workbook, exact sample inputs and a test results sheet.
 
 ## Teams setup resources
 
@@ -37,15 +37,15 @@ Recommendations provide general guidance about the observed condition. Validate 
 
 ## Check your setup
 
-For Teams, complete the [Azure and Teams acceptance checks](docs/teams-azure-setup.md#10-record-acceptance-results). For the review page, use [the installation checks](docs/customer-deployment-spec.md) to confirm sign-in, access restrictions, Zenity lookup, finding identity, safe failures, and read-only behavior. [How it works](HOW_IT_WORKS.md) explains the request and authentication flow.
+For Teams, complete the [Teams setup checks](docs/teams-azure-setup.md#10-record-acceptance-results). For the review page, use [the installation checks](docs/customer-deployment-spec.md) to confirm sign-in, access restrictions, Zenity lookup, finding identity, safe failures, and read-only behavior. [How it works](HOW_IT_WORKS.md) explains the request and authentication flow.
 
 ## Runtime updates
 
-CI follows the latest Node.js LTS and stable Python 3 releases. Customer images use `node:lts-slim`; the standalone lookup image uses `python:3-slim`. GitHub Actions follow maintained major-version tags with weekly Dependabot checks. Rebuild deployed images to adopt runtime updates, then repeat the installation acceptance checks.
+CI follows the latest Node.js LTS and stable Python 3 releases. Customer images use `node:lts-slim`; the standalone lookup image uses `python:3-slim`. GitHub Actions follow maintained major-version tags with weekly Dependabot checks. Rebuild deployed images to adopt runtime updates, then repeat the setup checks.
 
 ## Beta release
 
-The solution import and Teams channel activation have been rehearsed. The API-key Azure deployment recipe and a live finding conversation in Teams still require acceptance in your environment.
+Before inviting reviewers, test the Azure API-key deployment and a live finding conversation in Teams in your environment.
 
 [Download v0.1.0-beta.1](https://github.com/johnt-zenity/zenity-remediation-assistant/releases/tag/v0.1.0-beta.1). The application ZIP contains the customer application source, setup guides and Copilot solution. The separate Copilot solution ZIP installs the standalone chat agent. Configure your own Microsoft and Zenity connections, then complete the installation checks before inviting reviewers. The guides and deployment files on `main` include updates made after this beta ZIP was published; use the current guide when setting up Azure and Teams.
 
