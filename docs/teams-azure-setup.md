@@ -2,11 +2,11 @@
 
 Use this guide to host the lookup service in your Azure subscription, connect it to your Zenity environment, and install the agent in Teams. Azure Container Apps supplies the HTTPS hostname and certificate. The agent retrieves findings and provides general remediation advice. It performs no resource changes.
 
-**Validation status:** The solution import and Teams channel activation were rehearsed. This API-key Azure deployment recipe and a live finding conversation in Teams still require acceptance in your environment. The older Azure demo uses a different Entra connector contract.
+Before sharing the agent, run the five setup checks in section 10 using your environment. Use the service-key connection described in this guide.
 
 For an interactive installation guide, download [the walkthrough webpage](teams-walkthrough.html) and open it in your browser. The page runs locally. Its progress checklist stores only completion state in that browser.
 
-For instructor-led training, use the [four-session course and lab walkthrough](https://github.com/zenitysec/zenity-remediation-assistant/blob/main/docs/training/README.md).
+For instructor-led training, use the [four-session course and lab walkthrough](https://github.com/johnt-zenity/zenity-remediation-assistant/blob/main/docs/training/README.md).
 
 ## 1. Confirm access and prerequisites
 
@@ -186,11 +186,13 @@ Expect HTTP `401` with no finding content. The root URL has no health page and m
 4. Start a fresh conversation and repeat the real violation lookup. Complete any connection verification prompt. Require the same finding and rule as the connector test.
 5. After the personal test succeeds, follow your Teams app approval and reviewer distribution process. See [Microsoft's Teams publishing guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams).
 
-A published status or successful Studio test does not establish that Teams acceptance passed.
+A published status or successful Studio test does not establish that the Teams conversation test passed.
 
-## 10. Record acceptance results
+<a id="10-record-acceptance-results"></a>
 
-| Vector | Input | Required result |
+## 10. Record test results
+
+| Check ID | What to test | Expected result |
 | --- | --- | --- |
 | AZT01 | HTTPS request without service key | HTTP 401 and no finding content |
 | AZT02 | Authorized real violation ID in connector test | Live outcome, exact finding and expected rule |
