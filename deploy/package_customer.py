@@ -52,7 +52,7 @@ def package(customer, organization, integration, host, destination, app_config=N
         (configuration / 'app.json').write_text(json.dumps(app_config, indent=2) + '\n')
     application = destination / 'application'
     application.mkdir()
-    for name in ('connector_server.py','lookup_result.py','engine.py','profiles.py','evidence.py','live_guidance.py','zenity_auth.py','zenity_reader.py'):
+    for name in ('connector_server.py','training_reader.py','lookup_result.py','engine.py','profiles.py','evidence.py','live_guidance.py','zenity_auth.py','zenity_reader.py'):
         shutil.copyfile(ROOT / name, application / name)
     shutil.copytree(ROOT / 'profiles', application / 'profiles', ignore=shutil.ignore_patterns('__pycache__'))
     shutil.copytree(ROOT / 'deploy/customer', application / 'deploy/customer',

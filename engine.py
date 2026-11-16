@@ -124,7 +124,7 @@ def run_action(payload, reader=None, clock=time.monotonic, sleep=time.sleep, pro
         observed = datetime.fromisoformat(record['observed_at'].replace('Z', '+00:00'))
         if observed.tzinfo is None: return finish('invalid_record')
     except ValueError: return finish('invalid_record')
-    # Synthetic fixtures discard free text; the live reader projects bounded source data.
+    # Offline fixtures discard free text; live and training readers project bounded source data.
     context = dict(violation_id=identifier, retrieved_at=datetime.now(timezone.utc).isoformat(),
         violation_type=TYPE if record['violation_type'] == TYPE else 'unsupported',
         resource_type='power_automate_cloud_flow' if record['resource_type'] == 'power_automate_cloud_flow' else 'unsupported',
@@ -132,7 +132,7 @@ def run_action(payload, reader=None, clock=time.monotonic, sleep=time.sleep, pro
         observed_status=record['status'] if record['status'] in ('open', 'closed', 'resolved') else 'unknown',
         observed_at=observed.isoformat(), severity=record.get('severity') if record.get('severity') in ('low', 'medium', 'high', 'critical') else 'unknown',
         evidence_summary='External sharing reported in synthetic fixture.' if record['violation_type'] == TYPE else 'Unsupported observation; additional context required.')
-    if result['mode']=='live':
+    if result['mode'] in ('live','training'):
         rule_id=record.get('rule_id')
         if not isinstance(rule_id,str) or not re.fullmatch(r'ZN_[A-Z0-9]{1,30}',rule_id): return finish('invalid_record')
         context['resource_type']=record['resource_type']
@@ -143,9 +143,14 @@ def run_action(payload, reader=None, clock=time.monotonic, sleep=time.sleep, pro
         source=record.get('planning_source')
         if not isinstance(source,dict) or source.get('trust')!='untrusted_source_data': return finish('invalid_record')
         context['planning_source']=source
+        if result['mode']=='training':
+            context['resource_label']='Fictional training resource'
+            context['evidence_summary']='Fictional training data for conversation tests. No Zenity lookup occurred.'
         result['context']=context
         result['guidance_version']='zenity-source-proposal-v1'
         result['sources']=[{'id':'record','label':'Redacted Zenity finding and rule suggestions','url':'/docs/record'}]
+        if result['mode']=='training':
+            result['sources'][0]['label']='Fictional training finding'
         from live_guidance import guidance as live_guidance
         result['sections']=live_guidance(context)
         return finish('ok')
@@ -163,7 +168,7 @@ def follow_up(result, question):
     if not isinstance(question, str) or not question.strip() or len(question) > 2000:
         return 'Enter a question of 1 to 2,000 characters.'
     if result.get('outcome') != 'ok': return result.get('next_step', 'Look up a supported demo record first.')
-    if result.get('mode')=='live':
+    if result.get('mode') in ('live','training'):
         q=question.lower()
         if any(word in q for word in ('execute','apply','delete','remove','fix it')):
             return 'This action is read only. The guidance above describes general considerations for your environment. No change was made.'

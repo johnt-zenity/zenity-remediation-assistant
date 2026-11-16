@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "value": "zenity-remediation-training"
+    },
+    "location": {
+      "value": "YOUR_AZURE_REGION"
+    },
+    "environmentId": {
+      "value": "YOUR_CONTAINER_APPS_ENVIRONMENT_RESOURCE_ID"
+    },
+    "identityId": {
+      "value": "YOUR_USER_ASSIGNED_IDENTITY_RESOURCE_ID"
+    },
+    "registryServer": {
+      "value": "YOUR_REGISTRY.azurecr.io"
+    },
+    "image": {
+      "value": "YOUR_REGISTRY.azurecr.io/zenity-remediation-training:course"
+    },
+    "serviceKey": {
+      "value": "YOUR_SEPARATE_RANDOM_KEY_AT_LEAST_32_CHARACTERS"
+    }
+  }
+}
