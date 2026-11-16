@@ -37,7 +37,9 @@ Recommendations provide general guidance about the observed condition. Validate 
 
 ## Check your setup
 
-For Teams, complete the [Teams setup checks](docs/teams-azure-setup.md#10-record-acceptance-results). For the review page, use [the installation checks](docs/customer-deployment-spec.md) to confirm sign-in, access restrictions, Zenity lookup, finding identity, safe failures, and read-only behavior. [How it works](HOW_IT_WORKS.md) explains the request and authentication flow.
+For injection practice, use the [sample-data service](docs/training/sample-data-service.md) and its separate training agent. It needs no Zenity credentials.
+
+For Teams, complete the [Teams setup checks](docs/teams-azure-setup.md#10-record-test-results). For the review page, use [the installation checks](docs/customer-deployment-spec.md) to confirm sign-in, access restrictions, Zenity lookup, finding identity, safe failures, and read-only behavior. [How it works](HOW_IT_WORKS.md) explains the request and authentication flow.
 
 ## Runtime updates
 

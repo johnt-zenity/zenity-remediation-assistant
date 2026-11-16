@@ -163,7 +163,7 @@ Expect HTTP `401` with no finding content. The root URL has no health page and m
 
 ## 7. Import the Copilot solution and test the connector
 
-1. Open Power Apps and select the target environment. Choose **Solutions > Import solution**, select the Copilot solution ZIP, and continue through the wizard. Wait for the success message.
+1. Open Power Apps and select the target environment. Choose **Solutions > Import solution**, select `ZenityViolationsAgent-0.1.0-beta.1.zip`, and continue through the wizard. Wait for the success message.
 2. Open the imported solution, then **Objects > Zenity remediation lookup**. The connector editor may open in a separate Power Automate tab.
 3. Choose **Edit > General**. Replace `lookup.customer.example` with the Azure hostname. Enter the hostname only, without `https://` or a path. Keep **HTTPS** and **Base URL** `/`. Choose **Update connector**.
 4. On **Test**, create a connection using the separate connector service key. Do not enter the Zenity client secret here.
@@ -187,8 +187,6 @@ Expect HTTP `401` with no finding content. The root URL has no health page and m
 5. After the personal test succeeds, follow your Teams app approval and reviewer distribution process. See [Microsoft's Teams publishing guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams).
 
 A published status or successful Studio test does not establish that the Teams conversation test passed.
-
-<a id="10-record-acceptance-results"></a>
 
 ## 10. Record test results
 

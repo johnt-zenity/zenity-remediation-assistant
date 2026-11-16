@@ -58,16 +58,27 @@ class Handler(BaseHTTPRequestHandler):
         self.connection.settimeout(15)
 
 
-if __name__=='__main__':
+def parse_args(argv=None):
     parser=argparse.ArgumentParser(description='Authenticated fixed-scope Copilot lookup')
-    parser.add_argument('--live-config',required=True)
+    mode=parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--live-config')
+    mode.add_argument('--sample-data',action='store_true',help='Serve fictional training findings without a Zenity connection.')
     parser.add_argument('--bind',default='127.0.0.1')
     parser.add_argument('--port',type=int,default=8766)
-    args=parser.parse_args()
+    return parser,parser.parse_args(argv)
+
+
+if __name__=='__main__':
+    parser,args=parse_args()
     SERVICE_KEY=os.environ.get('REMEDIATION_CONNECTOR_KEY','')
     if len(SERVICE_KEY)<32: parser.error('Set a distinct REMEDIATION_CONNECTOR_KEY of at least 32 characters.')
-    from zenity_reader import load_connection,ZenityReader
-    connection=load_connection(args.live_config)
-    PROFILE=connection.profile;READER=ZenityReader(connection)
+    if args.sample_data:
+        from training_reader import TrainingReader
+        READER=TrainingReader()
+        print('TRAINING DATA ONLY: no Zenity connection is configured.',flush=True)
+    else:
+        from zenity_reader import load_connection,ZenityReader
+        connection=load_connection(args.live_config)
+        PROFILE=connection.profile;READER=ZenityReader(connection)
     print('Authenticated lookup adapter started; TLS and reviewer access must be provided by the deployment.',flush=True)
     ThreadingHTTPServer((args.bind,args.port),Handler).serve_forever()
